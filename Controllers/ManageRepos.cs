@@ -12,8 +12,6 @@ namespace server_api.Controllers
         [Route("[action]")]
         public string UpdateRepo([FromBody] GitRepoLocation location)
         {
-            var repos = GitManager.GetRepos(location);
-
             return "ok";
         }
     }
