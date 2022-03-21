@@ -42,20 +42,20 @@ namespace server_api.Services.Git
         /// Runs a "git pull" in the specified repo, and makes the necessary updates to hosting services
         /// </summary>
         /// <param name="location">Where is the repo</param>
-        /// <param name="repoName">Which repo to update</param>
+        /// <param name="unsafeRepoName">Which repo to update. Since this comes from the web,it is UNSAFE.</param>
         /// <param name="type">What other actions are necessary</param>
-        /// <param name="args">
-        ///     Additional options based on repo type
-        ///     <list type="bullet">  
-        ///       <item>IIS_SITE: none needed</item>
-        ///       <item>SCHEDULED_TASK: name of the task</item>
-        ///     </list>
-        /// </param>
-        public static void UpdateRepo(GitRepoLocation location, string repoName, GitRepoType type, string[]? args)
+        public static void UpdateRepo(GitRepoLocation location, string unsafeRepoName, GitRepoType type)
         {
             // search for desired repo
             var repos = GetRepos(location, includePaths: true);
-            var repoPath = repos.Find(x => x.Split('\\').Last() == repoName);
+            var repoPath = repos.Find(x => x.Split('\\').Last() == unsafeRepoName);
+
+            if(repoPath == null)
+            {
+                throw new System.ArgumentException("Repo not found", unsafeRepoName);
+            }
+
+            var safeRepoName = repoPath.Split('\\').Last();
 
             // pull changes
             ExecuteCommand.ExecuteCMD("git pull", repoPath);
@@ -65,10 +65,8 @@ namespace server_api.Services.Git
             {
                 case GitRepoType.SCHEDULED_TASK:
                     // restart scheduled task
-                    if (args == null) { throw new System.ArgumentException("Scheduled task requires task name as argument"); }
-                    var taskname = args[0];
-                    ExecuteCommand.ExecutePowerShell($"Stop-ScheduledTask -TaskName {taskname}");
-                    ExecuteCommand.ExecutePowerShell($"Start-ScheduledTask -TaskName {taskname}");
+                    ExecuteCommand.ExecutePowerShell($"Stop-ScheduledTask -TaskName {safeRepoName}");
+                    ExecuteCommand.ExecutePowerShell($"Start-ScheduledTask -TaskName {safeRepoName}");
                     break;
 
                 case GitRepoType.IIS_SITE:
