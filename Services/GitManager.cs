@@ -40,19 +40,19 @@ namespace server_api.Services.Git
 
         /// <summary>
         /// Runs a "git pull" in the specified repo, and makes the necessary updates to hosting services
+        /// 
+        /// Since the repo params come from the web, THEY ARE TO BE TREATED AS UNSAFE
         /// </summary>
-        /// <param name="location">Where is the repo</param>
-        /// <param name="unsafeRepoName">Which repo to update. Since this comes from the web,it is UNSAFE.</param>
-        /// <param name="type">What other actions are necessary</param>
-        public static void UpdateRepo(GitRepoLocation location, string unsafeRepoName, GitRepoType type)
+        /// <param name="repo">Where is the repo, how it should be updated, and what is its name</param>
+        public static void UpdateRepo(GitRepoDescriptor repo)
         {
             // search for desired repo
-            var repos = GetRepos(location, includePaths: true);
-            var repoPath = repos.Find(x => x.Split('\\').Last() == unsafeRepoName);
+            var repos = GetRepos(repo.location, includePaths: true);
+            var repoPath = repos.Find(x => x.Split('\\').Last() == repo.name);
 
             if(repoPath == null)
             {
-                throw new System.ArgumentException("Repo not found", unsafeRepoName);
+                throw new System.ArgumentException("Repo not found", repo.name);
             }
 
             var safeRepoName = repoPath.Split('\\').Last();
@@ -61,7 +61,7 @@ namespace server_api.Services.Git
             ExecuteCommand.ExecuteCMD("git pull", repoPath);
 
             // make necessary updates
-            switch (type)
+            switch (repo.type)
             {
                 case GitRepoType.SCHEDULED_TASK:
                     // restart scheduled task
@@ -78,6 +78,13 @@ namespace server_api.Services.Git
                     break;
             }
         }
+    }
+
+    public class GitRepoDescriptor
+    {
+        public GitRepoLocation location { get; set; }
+        public GitRepoType type { get; set; }
+        public string name { get; set; } = "";
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]

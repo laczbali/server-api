@@ -5,14 +5,22 @@ namespace server_api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ManageRepos
+    public class ManageRepos : ControllerBase
     {
 
         [HttpPost]
         [Route("[action]")]
-        public string UpdateRepo([FromBody] GitRepoLocation location)
+        public IActionResult UpdateRepo([FromBodyAttribute] GitRepoDescriptor repoInfo)
         {
-            return "ok";
+            try
+            {
+                GitManager.UpdateRepo(repoInfo);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
