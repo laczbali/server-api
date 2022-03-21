@@ -1,5 +1,8 @@
 namespace server_api.Services
 {
+    /// <summary>
+    /// Execute commands in various shells
+    /// </summary>
     public static class ExecuteCommand
     {
         /// <summary>

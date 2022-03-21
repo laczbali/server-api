@@ -2,6 +2,9 @@ using System.Text.Json.Serialization;
 
 namespace server_api.Services.Git
 {
+    /// <summary>
+    /// Handle git repositories
+    /// </summary>
     public static class GitManager
     {
         /// <summary>
@@ -80,25 +83,61 @@ namespace server_api.Services.Git
         }
     }
 
+    /// <summary>
+    /// Every info necessary to identify a repository
+    /// </summary>
     public class GitRepoDescriptor
     {
+        /// <summary>
+        /// Where it the repo on the server
+        /// </summary>
+        /// <value></value>
         public GitRepoLocation location { get; set; }
+        /// <summary>
+        /// In what context the repo is used (eg hosted by IIS)
+        /// </summary>
+        /// <value></value>
         public GitRepoType type { get; set; }
+        /// <summary>
+        /// The name of the repo
+        /// </summary>
+        /// <value></value>
         public string name { get; set; } = "";
     }
 
+    /// <summary>
+    /// Where it the repo on the server
+    /// </summary>
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum GitRepoLocation
     {
+        /// <summary>
+        /// The repo is in the git root folder
+        /// </summary>
         GIT_ROOT,
+        /// <summary>
+        /// The repo is in the IIS root folder
+        /// </summary>
         IIS_ROOT
     }
 
+    /// <summary>
+    /// In what context the repo is used (eg hosted by IIS)
+    /// </summary>
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum GitRepoType
     {
+        /// <summary>
+        /// The repo is run as a scheduled task
+        /// </summary>
         SCHEDULED_TASK,
+        /// <summary>
+        /// The repo is run as a IIS site
+        /// </summary>
         IIS_SITE,
+        /// <summary>
+        /// The repo is used some other way
+        /// </summary>
         OTHER
     }
 }
