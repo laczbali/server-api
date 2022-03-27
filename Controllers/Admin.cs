@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using server_api.Services;
 
 namespace server_api.Controllers
 {
@@ -15,7 +16,8 @@ namespace server_api.Controllers
         /// <returns></returns>
         [HttpPost("[action]")]
         public IActionResult RegenToken() {
-            throw new NotImplementedException();
+            AuthService.RegenToken();
+            return Ok();
         }
     }
 }

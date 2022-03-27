@@ -1,4 +1,5 @@
 using System.Reflection;
+using server_api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,10 +23,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-// app.UseHttpsRedirection();
-
-app.UseAuthorization();
+else
+{
+    app.UseHttpsRedirection();
+    app.UseTokenAuth();
+}
 
 app.MapControllers();
 
