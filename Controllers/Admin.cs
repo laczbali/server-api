@@ -19,16 +19,6 @@ namespace server_api.Controllers
         {
             AuthService.RegenToken();
             return Ok();
-        }
-
-        /// <summary>
-        /// Simply returns "hello"
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("[action]")]
-        public IActionResult Test()
-        {
-            return Ok("hello");
-        }
+        }       
     }
 }

@@ -26,7 +26,7 @@ namespace server_api.Middleware
         public async Task InvokeAsync(HttpContext context)
         {
             // no auth needed for test endpoint
-            if(context.Request.Path == "/admin/test")
+            if(context.Request.Path == "/")
             {
                 await _next(context);
                 return;
