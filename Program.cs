@@ -26,7 +26,7 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseHttpsRedirection();
-    app.UseTokenAuth();   
+    // app.UseTokenAuth();   
 }
 
 app.MapControllers();
