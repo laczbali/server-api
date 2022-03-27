@@ -60,21 +60,19 @@ namespace server_api.Services.Git
 
             var safeRepoName = repoPath.Split('\\').Last();
 
-            // pull changes
-            ExecuteCommand.ExecuteCMD("git pull", repoPath);
-
             // make necessary updates
             switch (repo.type)
             {
                 case GitRepoType.SCHEDULED_TASK:
-                    // restart scheduled task
                     ExecuteCommand.ExecutePowerShell($"Stop-ScheduledTask -TaskName {safeRepoName}");
+                    ExecuteCommand.ExecuteCMD("git pull", repoPath);
                     ExecuteCommand.ExecutePowerShell($"Start-ScheduledTask -TaskName {safeRepoName}");
                     break;
 
                 case GitRepoType.IIS_SITE:
-                    // restart IIS
-                    ExecuteCommand.ExecuteCMD("iisreset");
+                    ExecuteCommand.ExecuteCMD("iisreset /stop");
+                    ExecuteCommand.ExecuteCMD("git pull", repoPath);
+                    ExecuteCommand.ExecuteCMD("iisreset /start");
                     break;
 
                 default:
