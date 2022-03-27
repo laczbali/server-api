@@ -15,9 +15,20 @@ namespace server_api.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost("[action]")]
-        public IActionResult RegenToken() {
+        public IActionResult RegenToken()
+        {
             AuthService.RegenToken();
             return Ok();
+        }
+
+        /// <summary>
+        /// Simply returns "hello"
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("[action]")]
+        public IActionResult Test()
+        {
+            return Ok("hello");
         }
     }
 }

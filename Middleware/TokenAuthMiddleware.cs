@@ -25,6 +25,13 @@ namespace server_api.Middleware
         /// <returns></returns>
         public async Task InvokeAsync(HttpContext context)
         {
+            // no auth needed for test endpoint
+            if(context.Request.Path == "/admin/test")
+            {
+                await _next(context);
+                return;
+            }
+
             context.Request.Headers.TryGetValue("Authorization", out var authHeader);
 
             var authToken = authHeader.ToString().Replace("Bearer ", "");
