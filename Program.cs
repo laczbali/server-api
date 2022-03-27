@@ -32,3 +32,6 @@ else
 app.MapControllers();
 
 app.Run();
+
+// TODO: add feature for self-update
+// TODO: add possibility of extra actions (eg "dotnet publish")
