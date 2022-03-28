@@ -24,6 +24,8 @@ namespace server_api.Services
             process.WaitForExit();
 
             var response = process.StandardOutput.ReadToEnd();
+            var error = process.StandardError.ReadToEnd();
+            FileLogger.Log($"CMD: {command}\n{error}");
             return response;
         }
 
@@ -46,6 +48,8 @@ namespace server_api.Services
             process.WaitForExit();
 
             var response = process.StandardOutput.ReadToEnd();
+            var error = process.StandardError.ReadToEnd();
+            FileLogger.Log($"PS: {command}\n{error}");
             return response;
         }
     }
