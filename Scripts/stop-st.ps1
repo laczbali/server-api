@@ -1,1 +1,0 @@
-Stop-ScheduledTask -TaskName smart-discord

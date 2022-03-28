@@ -22,8 +22,7 @@ namespace server_api.Controllers
         {
             try
             {
-                // TODO: scheduled tasks definately don't get restarted
-                // TODO: iis probably doesnt get reastarted, based on the time it takes
+                // TODO: scheduled tasks definately don't get restarted, due to IIS user not having the proper permissions
                 GitManager.UpdateRepo(repoInfo);
                 return Ok();
             }
