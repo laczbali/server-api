@@ -66,13 +66,13 @@ namespace server_api.Services.Git
                 case GitRepoType.SCHEDULED_TASK:
                     ExecuteCommand.ExecutePowerShell($"Stop-ScheduledTask -TaskName {safeRepoName}");
                     ExecuteCommand.ExecuteCMD("git pull", repoPath);
-                    ExecuteCommand.ExecutePowerShell($"Start-ScheduledTask -TaskName {safeRepoName}");
+                    // ExecuteCommand.ExecutePowerShell($"Start-ScheduledTask -TaskName {safeRepoName}");
                     break;
 
                 case GitRepoType.IIS_SITE:
                     ExecuteCommand.ExecuteCMD("iisreset /stop");
                     ExecuteCommand.ExecuteCMD("git pull", repoPath);
-                    ExecuteCommand.ExecuteCMD("iisreset /start");
+                    // ExecuteCommand.ExecuteCMD("iisreset /start");
                     break;
 
                 default:
