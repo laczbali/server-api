@@ -19,6 +19,7 @@ namespace server_api.Services
             process.StartInfo.Arguments = $"/C {command}";
             // process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardError = true;
             process.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
             process.Start();
             process.WaitForExit();
@@ -43,6 +44,7 @@ namespace server_api.Services
             process.StartInfo.Arguments = $"-Command {command}";
             // process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardError = true;
             process.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
             process.Start();
             process.WaitForExit();
