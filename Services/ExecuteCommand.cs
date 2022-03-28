@@ -21,8 +21,11 @@ namespace server_api.Services
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
             process.Start();
+            process.WaitForExit();
 
-            return process.StandardOutput.ReadToEnd();
+            var response = process.StandardOutput.ReadToEnd();
+            FileLogger.Log($"ExecuteCMD: {command}\n{response.Trim()}");
+            return response;
         }
 
         /// <summary>
@@ -41,8 +44,11 @@ namespace server_api.Services
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
             process.Start();
+            process.WaitForExit();
 
-            return process.StandardOutput.ReadToEnd();
+            var response = process.StandardOutput.ReadToEnd();
+            FileLogger.Log($"ExecutePowerShell: {command}\n{response.Trim()}");
+            return response;
         }
     }
 }
