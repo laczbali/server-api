@@ -24,7 +24,6 @@ namespace server_api.Services
             process.WaitForExit();
 
             var response = process.StandardOutput.ReadToEnd();
-            FileLogger.Log($"ExecuteCMD: {command}\n{response.Trim()}");
             return response;
         }
 
@@ -47,7 +46,6 @@ namespace server_api.Services
             process.WaitForExit();
 
             var response = process.StandardOutput.ReadToEnd();
-            FileLogger.Log($"ExecutePowerShell: {command}\n{response.Trim()}");
             return response;
         }
     }
