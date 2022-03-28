@@ -64,7 +64,8 @@ namespace server_api.Services.Git
             switch (repo.type)
             {
                 case GitRepoType.SCHEDULED_TASK:
-                    ExecuteCommand.ExecutePowerShell($"Stop-ScheduledTask -TaskName {safeRepoName}");
+                    // ExecuteCommand.ExecutePowerShell($"Stop-ScheduledTask -TaskName {safeRepoName}");
+                    ExecuteCommand.ExecutePowerShell("..\\..\\..\\..\\scripts\\stop-st.ps1");
                     ExecuteCommand.ExecuteCMD("git pull", repoPath);
                     // ExecuteCommand.ExecutePowerShell($"Start-ScheduledTask -TaskName {safeRepoName}");
                     break;
